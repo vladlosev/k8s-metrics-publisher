@@ -26,17 +26,17 @@ jobs:
     - uses: actions/setup-go@v2
       with:
         go-version: 1.15
-    - name: Build binary
-      run: GOOS=linux GOARCH=amd64 CGOENABLED=0 go build -o server ./main.go
     - name: Dump variables
       run: |
         echo github.event_name: ${{ github.event_name }}
-        echo github.event: "${{ toJson(github.event) }}"
+        echo github.event: '${{ toJson(github.event) }}'
         echo github.event.release.tag_name: ${{ github.event.release.tag_name }}
         echo github.ref: ${{ github.ref }}
         echo github.sha: ${{ github.sha }}
         echo github.head_ref: ${{ github.head_ref }}
         echo github.base_ref: ${{ github.base_reg }}
+    - name: Build binary
+      run: GOOS=linux GOARCH=amd64 CGOENABLED=0 go build -o server ./main.go
     - name: Docker build and push
       uses: docker/build-push-action@v1.1.1
       with:
