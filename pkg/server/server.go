@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/vladlosev/k8s-apiserver-metrics/pkg/client"
@@ -16,17 +17,17 @@ type Server struct {
 }
 
 // New returns a new instance of Server.
-func New(client *client.Client) *Server {
+func New(client *client.Client, port uint32, endpointPath string) *Server {
 	mux := http.NewServeMux()
 	server := &Server{
 		Server: http.Server{
-			Addr:    ":8080",
+			Addr:    fmt.Sprintf(":%d", port),
 			Handler: mux,
 		},
 		mux:    mux,
 		client: client,
 	}
-	server.mux.HandleFunc("/metrics", server.handleMetrics)
+	server.mux.HandleFunc(endpointPath, server.handleMetrics)
 	return server
 }
 
