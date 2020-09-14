@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/vladlosev/k8s-apiserver-metrics/pkg/client"
+	"github.com/vladlosev/k8s-metrics-publisher/pkg/client"
 )
 
 type serverMux http.ServeMux

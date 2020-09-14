@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/vladlosev/k8s-apiserver-metrics/pkg/cmd"
+	"github.com/vladlosev/k8s-metrics-publisher/pkg/cmd"
 )
 
 func main() {

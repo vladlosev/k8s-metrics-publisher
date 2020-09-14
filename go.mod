@@ -1,4 +1,4 @@
-module github.com/vladlosev/k8s-apiserver-metrics
+module github.com/vladlosev/k8s-metrics-publisher
 
 go 1.15
 

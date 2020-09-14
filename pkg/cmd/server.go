@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/vladlosev/k8s-apiserver-metrics/pkg/client"
-	"github.com/vladlosev/k8s-apiserver-metrics/pkg/server"
+	"github.com/vladlosev/k8s-metrics-publisher/pkg/client"
+	"github.com/vladlosev/k8s-metrics-publisher/pkg/server"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
