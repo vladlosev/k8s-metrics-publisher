@@ -1,0 +1,40 @@
+name: CI Workflow
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+  release:
+    types:
+    - created
+    - published
+    - released
+
+env:
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+    - name: Build binary
+      run: GOOS=linux GOARCH=amd64 CGOENABLED=0 go build -o server ./main.go
+    - name: Docker build and push
+      uses: docker/build-push-action@v1.1.1
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: ${{ env.DOCKER_USERNAME }}
+        password: ${{ env.DOCKER_PASSWORD }}
+        repository: ${{ env.DOCKER_REPO }}
+        dockerfile: Dockerfile
+        tags: ${{ github.event_name == 'release' && github.event.release.tag_name || format('master-{0}', github.sha) }}
+        push: ${{ github.event_name == 'release' || github.ref == 'master' }}

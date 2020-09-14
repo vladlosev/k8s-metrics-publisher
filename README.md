@@ -1,4 +1,4 @@
-# k8s-apiserver-metrics
+# k8s-metrics-publisher
 
 The Kubernetes API server provides the `/metrics` endpoint, where it exposes a
 wealth of information about its performance in Prometheus format.  But if you
