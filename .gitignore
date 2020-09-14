@@ -17,3 +17,6 @@
 
 # Editor files
 .*.sw?
+
+# asdf config
+.tool-versions
