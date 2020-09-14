@@ -2,4 +2,4 @@ FROM scratch
 
 COPY server .
 
-CMD ["/server"]
+ENTRYPOINT ["/server"]
