@@ -27,7 +27,7 @@ jobs:
       with:
         go-version: 1.15
     - name: Build binary
-      run: go build GOOS=linux GOARCH=amd64 CGOENABLED=0 -O server ./main.go
+      run: GOOS=linux GOARCH=amd64 CGOENABLED=0 go build -O server ./main.go
     - name: Docker build and push
       uses: docker/build-push-action@v1.1.1
       with:
