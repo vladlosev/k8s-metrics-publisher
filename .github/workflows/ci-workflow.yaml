@@ -37,4 +37,4 @@ jobs:
         repository: ${{ env.DOCKER_REPO }}
         dockerfile: Dockerfile
         tags: ${{ github.event_name == 'release' && github.ref || github.sha }}
-        push: ${{ github.event_name == 'release' || github.ref == 'master' }}
+        push: ${{ true || github.event_name == 'release' || github.ref == 'master' }}
