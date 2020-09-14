@@ -31,7 +31,7 @@ jobs:
     - name: Dump variables
       run: |
         echo github.event_name: ${{ github.event_name }}
-        echo github.event: "${{ github.event }}"
+        echo github.event: "${{ toJson(github.event) }}"
         echo github.event.release.tag_name: ${{ github.event.release.tag_name }}
         echo github.ref: ${{ github.ref }}
         echo github.sha: ${{ github.sha }}
