@@ -6,8 +6,10 @@ on:
   pull_request:
     branches:
     - master
-  tags:
-  - v*
+  release:
+  - created
+  - published
+  - released
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
