@@ -26,6 +26,8 @@ jobs:
     - uses: actions/setup-go@v2
       with:
         go-version: 1.15
+    - name: Debug output
+      run: echo Will push tag ${{ github.event_name == 'release' && github.event.release.tag_name || format('{0}-{1}', github.ref, github.sha) }}
     - name: Build binary
       run: GOOS=linux GOARCH=amd64 CGOENABLED=0 go build -o server ./main.go
     - name: Docker build and push
@@ -36,5 +38,5 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
         repository: ${{ env.DOCKER_REPO }}
         dockerfile: Dockerfile
-        tags: ${{ github.event_name == 'release' && github.ref || github.sha }}
-        push: ${{ true || github.event_name == 'release' || github.ref == 'master' }}
+        tags: ${{ github.event_name == 'release' && github.event.release.tag_name || format('{0}-{1}', github.ref, github.sha) }}
+        push: ${{ github.event_name == 'release' || github.ref == 'master' }}
