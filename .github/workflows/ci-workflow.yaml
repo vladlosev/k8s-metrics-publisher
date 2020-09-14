@@ -7,9 +7,10 @@ on:
     branches:
     - master
   release:
-  - created
-  - published
-  - released
+    types:
+    - created
+    - published
+    - released
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
