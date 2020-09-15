@@ -27,6 +27,10 @@ func New(client *client.Client, port uint32, endpointPath string) *Server {
 		mux:    mux,
 		client: client,
 	}
+	server.mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Me be healthy. Me be smart."))
+	})
 	server.mux.HandleFunc(endpointPath, server.handleMetrics)
 	return server
 }
