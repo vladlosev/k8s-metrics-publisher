@@ -8,9 +8,7 @@ on:
     - master
   release:
     types:
-    - created
     - published
-    - released
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
