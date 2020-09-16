@@ -31,7 +31,7 @@ func NewServerCommand() *cobra.Command {
 		&logLevel,
 		"log-level",
 		"info",
-		"Log level. One of: error, warn, info, degug.",
+		"Log level. One of: error, warn, info, debug.",
 	)
 
 	cmd.PersistentFlags().Uint32Var(
@@ -70,7 +70,7 @@ func startServer(cmd *cobra.Command, args []string) error {
 		<-stopChan
 		metricsScraper.Shutdown(context.Background())
 	}()
-	logrus.WithField("address", metricsScraper.Addr).Info("Launchiing server")
+	logrus.WithField("address", metricsScraper.Addr).Info("Launching server")
 	err = metricsScraper.ListenAndServe()
 	if err == http.ErrServerClosed {
 		err = nil
