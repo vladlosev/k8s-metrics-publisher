@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
 	"github.com/vladlosev/k8s-metrics-publisher/pkg/client"
 )
 
@@ -45,6 +46,9 @@ func (s *Server) handleMetrics(w http.ResponseWriter, r *http.Request) {
 	}
 	body, err := s.client.GetMetrics(r.Context())
 	if err != nil {
+		logrus.WithFields(
+			logrus.Fields{"message": err.Error(), "body": string(body)},
+		).Info("Error polling API server")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
