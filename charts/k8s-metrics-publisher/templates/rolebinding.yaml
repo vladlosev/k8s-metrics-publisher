@@ -5,7 +5,7 @@ metadata:
   labels: {{- include "k8s-metrics-publisher.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: {{ include "k8s-metrics-publisher.fullname" . }}
 subjects:
 - kind: ServiceAccount
