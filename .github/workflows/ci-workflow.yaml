@@ -20,10 +20,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-go@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v3
       with:
-        go-version: 1.15
+        go-version: 1.18
     - name: Dump variables
       run: |
         echo github.event_name: ${{ github.event_name }}
@@ -35,13 +35,14 @@ jobs:
         echo github.base_ref: ${{ github.base_reg }}
     - name: Build binary
       run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o server ./main.go
-    - name: Docker build and push
-      uses: docker/build-push-action@v1.1.1
+    - name: Docker login
+      uses: docker/login-action@v2
       with:
         registry: ${{ env.DOCKER_REGISTRY }}
         username: ${{ env.DOCKER_USERNAME }}
         password: ${{ env.DOCKER_PASSWORD }}
-        repository: ${{ env.DOCKER_REPO }}
-        dockerfile: Dockerfile
-        tags: ${{ github.event_name == 'release' && github.event.release.tag_name || format('master-{0}', github.sha) }}
+    - name: Docker build and push
+      uses: docker/build-push-action@v4
+      with:
+        tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPO }}/${{ github.event_name == 'release' && github.event.release.tag_name || format('master-{0}', github.sha) }}
         push: ${{ github.event_name == 'release' || github.ref == 'refs/heads/master' }}
