@@ -8,8 +8,6 @@ import (
 	"github.com/vladlosev/k8s-metrics-publisher/pkg/client"
 )
 
-type serverMux http.ServeMux
-
 // Server is the type implementing the
 type Server struct {
 	http.Server
@@ -30,7 +28,10 @@ func New(client *client.Client, port uint32, endpointPath string) *Server {
 	}
 	server.mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Me be healthy. Me be smart."))
+		_, err := w.Write([]byte("Me be healthy. Me be smart."))
+		if err != nil {
+			logrus.WithError(err).Error("Error writing healthz response")
+		}
 	})
 	server.mux.HandleFunc(endpointPath, server.handleMetrics)
 	return server
@@ -46,12 +47,16 @@ func (s *Server) handleMetrics(w http.ResponseWriter, r *http.Request) {
 	}
 	body, err := s.client.GetMetrics(r.Context())
 	if err != nil {
-		logrus.WithFields(
-			logrus.Fields{"message": err.Error(), "body": string(body)},
-		).Info("Error polling API server")
+		logrus.
+			WithError(err).
+			WithField("body", string(body)).
+			Error("error polling API server")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
-	w.Write(body)
+	_, err = w.Write(body)
+	if err != nil {
+		logrus.WithError(err).Error("Error writing metrics response")
+	}
 }
