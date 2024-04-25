@@ -20,6 +20,6 @@ jobs:
     - name: Lint
       uses: golangci/golangci-lint-action@v4
       with:
-        skip-pkg-cache: false
-        skip-build-cache: false
+        skip-pkg-cache: true
+        skip-build-cache: true
         args: --timeout=180s
