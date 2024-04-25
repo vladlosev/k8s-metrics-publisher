@@ -68,7 +68,10 @@ func startServer(cmd *cobra.Command, args []string) error {
 	metricsScraper := server.New(metricsClient, port, endpointPath)
 	go func() {
 		<-stopChan
-		metricsScraper.Shutdown(context.Background())
+		err := metricsScraper.Shutdown(context.Background())
+		if err != nil && err != http.ErrServerClosed {
+			logrus.WithError(err).Error("Error shutting down the server")
+		}
 	}()
 	logrus.WithField("address", metricsScraper.Addr).Info("Launching server")
 	err = metricsScraper.ListenAndServe()
