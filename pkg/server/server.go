@@ -50,7 +50,7 @@ func (s *Server) handleMetrics(w http.ResponseWriter, r *http.Request) {
 		logrus.
 			WithError(err).
 			WithField("body", string(body)).
-			Error("error polling API server")
+			Error("Error polling API server")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
