@@ -20,3 +20,5 @@
 
 # asdf config
 .tool-versions
+
+.vscode
