@@ -11,15 +11,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-go@v6
       with:
         go-version-file: go.mod
     - name: Build binary
       run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o server ./main.go
     - name: Lint
-      uses: golangci/golangci-lint-action@v4
+      uses: golangci/golangci-lint-action@v9
       with:
-        skip-pkg-cache: true
-        skip-build-cache: true
+        skip-cache: true
         args: --timeout=180s
